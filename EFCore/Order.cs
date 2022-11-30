@@ -9,9 +9,9 @@ namespace postgres_dotnet.EFCore
         [Key, Required]
         public int id { get; set; }
 
-        // Foreign Key for product
-        public int product_id { get; set; }
 
+
+        // The below foreign key reference automatically creates the foreign key ID
         public virtual Product Product { get; set; }
 
         public string user { get; set; } = string.Empty;
