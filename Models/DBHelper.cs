@@ -9,7 +9,7 @@ namespace postgres_dotnet.Models
         {
             _context = context;
         }
-        // GET
+        // GET List
         public List<ProductModel> GetProducts()
         {
             List<ProductModel> response = new List<ProductModel>();
@@ -25,6 +25,22 @@ namespace postgres_dotnet.Models
             return response;
         }
 
+        // Get ID
+        public ProductModel GetProductByID(int id)
+        {
+            ProductModel response = new ProductModel();
+            var row = _context.Products.Where(d => d.id.Equals(id)).FirstOrDefault();
+            return new ProductModel()
+            {
+                brand = row.brand,
+                id = row.id,
+                name = row.name,
+                price = row.price,
+                size = row.size,
+            };
+        }
+
+
         // POST, PUT, PATCH
         public void SaveOrder(OrderModel orderModel)
         {
@@ -38,17 +54,30 @@ namespace postgres_dotnet.Models
                     dbTable.user_phone = orderModel.user_phone;
                     dbTable.user_address = orderModel.user_address;
                 }
-                else
-                {
-                    // POST
-                    dbTable.user_phone = orderModel.user_phone;
-                    dbTable.user_address = orderModel.user_address;
-                    dbTable.user = orderModel.user;
-                    dbTable.Product = _context.Products.Where(f => f.id.Equals(orderModel.product_id)).FirstOrDefault();
-                    _context.Orders.Add(dbTable);
-                }
             }
+            else
+            {
+                // POST
+                dbTable.user_phone = orderModel.user_phone;
+                dbTable.user_address = orderModel.user_address;
+                dbTable.user = orderModel.user;
+                dbTable.Product = _context.Products.Where(f => f.id.Equals(orderModel.product_id)).FirstOrDefault();
+                _context.Orders.Add(dbTable);
+            }
+            _context.SaveChanges();
+
         }
 
+
+        // DELETE
+        public void DeleteOrder(int id)
+        {
+            var order = _context.Orders.Where(d => d.id.Equals(id)).FirstOrDefault();
+            if (order != null)
+            {
+                _context.Orders.Remove(order);
+                _context.SaveChanges();
+            }
+        }
     }
 }

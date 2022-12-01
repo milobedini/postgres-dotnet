@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+// The actual Postgres model.
+
 namespace postgres_dotnet.EFCore
 {
     [Table("order")]
@@ -8,7 +10,6 @@ namespace postgres_dotnet.EFCore
     {
         [Key, Required]
         public int id { get; set; }
-
 
 
         // The below foreign key reference automatically creates the foreign key ID

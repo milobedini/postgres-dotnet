@@ -1,5 +1,7 @@
 namespace postgres_dotnet.Models
 {
+
+    // The API model to be used by controllers.
     public class OrderModel
     {
         public int id { get; set; }
